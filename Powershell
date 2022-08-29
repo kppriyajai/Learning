@@ -1,0 +1,126 @@
+Get-Command -Verb Get -Noun a-noun*
+Get-Help
+Get-help write-host 	-online
+			-Full
+			-Detailed
+			-Example
+			-Parameter
+
+Get-Member -->to customize the output
+# Write-Output -InputObject 'Hello World!'
+
+helloworld.ps1
+
+$name = Read-Host -Prompt "Please enter your name"
+Write-Output "Congratulations $name! You have written your first code with PowerShell!"		
+
+$date = Get-Date
+$name = Read-host -Prompt "What is your name"
+Write-Host "Hello $name !!, Todays date is $date"
+
+$PI=3.14
+Write-Host "The value of `$PI is $($PI+2)"
+
+New-Item -Path . -Name "PI.ps1" -ItemType "file"
+code PI.ps1
+
+Param(
+   [Parameter(Mandatory)]
+   $Path
+)
+New-Item $Path
+Write-Host "File created at path $Path"
+
+Param(
+   [string]$Path
+)
+
+mkdir app
+cd app
+touch index.html app.js
+cd ..
+
+$date = Get-Date -format "yyyy-MM-dd"
+Compress-Archive -Path './app' -CompressionLevel 'Fastest' -DestinationPath "./backup-$date"
+Write-Host "Created backup at $('./backup-' + $date + '.zip')"
+
+Param(
+  [string]$Path = './app',
+  [string]$DestinationPath = './'
+)
+$date = Get-Date -format "yyyy-MM-dd"
+Compress-Archive -Path $Path -CompressionLevel 'Fastest' -DestinationPath "$($DestinationPath + 'backup-' + $date)"
+Write-Host "Created backup at $($DestinationPath + 'backup-' + $date + '.zip')"
+
+rm backup-<current date as YYYY-MM-DD>.zip
+
+# _FullyTax.ps1_
+# Possible values: 'Minor', 'Adult', 'Senior Citizen'
+$Status = 'Minor'
+If ($Status -eq 'Minor') 
+{
+  Write-Host $False
+} ElseIf ($Status -eq 'Adult') {
+  Write-Host $True
+} Else {
+  Write-Host $False
+}
+
+Param(
+  [string]$Path = './app',
+  [string]$DestinationPath = './'
+)
+If (-Not (Test-Path $Path)) 
+{
+  Throw "The source directory $Path does not exist, please specify an existing directory"
+}
+$date = Get-Date -format "yyyy-MM-dd"
+$DestinationFile = "$($DestinationPath + 'backup-' + $date + '.zip')"
+If (-Not (Test-Path $DestinationFile)) 
+{
+  Compress-Archive -Path $Path -CompressionLevel 'Fastest' -DestinationPath "$($DestinationPath + 'backup-' + $date)"
+  Write-Host "Created backup at $($DestinationPath + 'backup-' + $date + '.zip')"
+} Else {
+  Write-Error "Today's backup already exists"
+}
+
+If ($PathIsWebApp -eq $True) {
+   Try 
+   {
+     $ContainsApplicationFiles = "$((Get-ChildItem $Path).Extension | Sort-Object -Unique)" -match  '\.js|\.html|\.css'
+
+     If ( -Not $ContainsApplicationFiles) {
+       Throw "Not a web app"
+     } Else {
+       Write-Host "Source files look good, continuing"
+     }
+   } Catch {
+    Throw "No backup created due to: $($_.Exception.Message)"
+   }
+}
+
+Set-Location	cd, chdir, sl	Sets the current working location to a specified location.
+Get-Content	cat, gc, type	Gets the content of the item at the specified location.
+Add-Content	ac	Adds content to the specified items, such as adding words to a file.
+Set-Content	sc	Writes or replaces the content in an item with new content.
+Copy-Item	copy, cp, cpi	Copies an item from one location to another.
+Remove-Item	del, erase, rd, ri, rm, rmdir	Deletes the specified items.
+Move-Item	mi, move, mv	Moves an item from one location to another.
+Set-Item	si	Changes the value of an item to the value specified in the command.
+New-Item	ni	Creates a new item.
+Start-Job	sajb	Starts a Windows PowerShell background job.
+Compare-Object	compare, dif	Compares two sets of objects.
+Group-Object	group	Groups objects that contain the same value for specified properties.
+Invoke-WebRequest	curl, iwr, wget	Gets content from a web page on the Internet.
+Measure-Object	measure	Calculates the numeric properties of objects, and the characters, words, and lines in string objects, such as files …
+Resolve-Path	rvpa	Resolves the wildcard characters in a path, and displays the path contents.
+Resume-Job	rujb	Restarts a suspended job
+Set-Variable	set, sv	Sets the value of a variable. Creates the variable if one with the requested name does not exist.
+Show-Command	shcm	Creates Windows PowerShell commands in a graphical command window.
+Sort-Object	sort	Sorts objects by property values.
+Start-Service	sasv	Starts one or more stopped services.
+Start-Process	saps, start	Starts one or more processes on the local computer.
+Suspend-Job	sujb	Temporarily stops workflow jobs.
+Wait-Job	wjb	Suppresses the command prompt until one or all of the Windows PowerShell background jobs running in the session are …
+Where-Object	?, where	Selects objects from a collection based on their property values.
+Write-Output	echo, write	Sends the specified objects to the next command in the pipeline. If the command is the last command in the pipeline,…
